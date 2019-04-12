@@ -1,14 +1,15 @@
 import { getAuthorizedClient } from "./utils/gcal";
 import { OAuth, ListEventQuery, Calendar, CalendarEvent } from "./interfaces/gcal";
 import { google } from 'googleapis';
-import { Observable, Subscriber } from "rxjs";
-import { concatMap, map } from "rxjs/operators";
+import { Observable, Subscriber, pipe, from, empty, combineLatest, of } from "rxjs";
+import { concatMap, map, flatMap, filter, shareReplay } from "rxjs/operators";
+import { DotaMatch } from "./interfaces/dota";
 
-getAuthorizedClient()
-    .pipe(
-        concatMap(insertCalendarEvent),
-    )
-    .subscribe(console.log, console.error);
+// getAuthorizedClient()
+//     .pipe(
+//         concatMap(insertCalendarEvent),
+//     )
+//     .subscribe(console.log, console.error);
 
 function accessCalendar<T>(func: Function, query: any): (subscriber: Subscriber<T>) => void {
     return subscriber => {
@@ -78,4 +79,54 @@ function insertCalendarEvent(auth: OAuth, calendarEvent: CalendarEvent): Observa
     };
 
     return new Observable<CalendarEvent>(accessCalendar(calendar.events.insert, query));
+}
+
+function calendarEventExists(proposedEvent: CalendarEvent, existingEvents: CalendarEvent[]): boolean {
+    return true;
+}
+
+function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
+    return {
+
+    }
+}
+
+function getLatestCalendarEvents(): Observable<CalendarEvent[]> {
+    return empty();
+}
+
+/**
+ * Input: a list of recent dota matches.
+ * Output: Each calendar event that was inserted into the google calendar.
+ */
+function insertNewDotaMatchesAsCalendarEvents() {
+
+    let calendarEvents = getLatestCalendarEvents().pipe(shareReplay(1))
+
+    let authorizedClient =  getAuthorizedClient().pipe(shareReplay(1))
+
+    return pipe(
+        // Process each match one at a time
+        flatMap((games: DotaMatch[]) => from(games)),
+        // Transform the match into a proposed CalendarEvent
+        map(dotaMatchToCalendarEvent),
+        // Pair together the proposed event and the list of current calendar events
+        flatMap((proposedEvent: CalendarEvent) => 
+            combineLatest(
+                of(proposedEvent), 
+                calendarEvents)
+                ),
+        // Only get the ones which do not exist yet
+        filter(data => calendarEventExists(data[0], data[1]) == false),
+        // Go back to the proposed calendar event
+        map(data => data[0]),
+        // Pair together the proposed event and the Oauth client to be used with googleapis.
+        flatMap(newCalendarEvent => 
+            combineLatest(
+                authorizedClient, 
+                of(newCalendarEvent))
+                ),
+        // Insert the proposed calendar event
+        flatMap(data => insertCalendarEvent(data[0], data[1]))
+    )
 }
