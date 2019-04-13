@@ -40,26 +40,16 @@ npm test
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
 * 0.0.1
-    * Work in progress
+    * Initial release. Can now load data from open dota api and create calendar events without creating duplicate events.
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Reach me on the following portals:
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+**Twitter:** [@darrensapalo](https://twitter.com/darrensapalo) 
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Contributing
 
@@ -76,3 +66,14 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
 [wiki]: https://github.com/yourname/yourproject/wiki
+
+## Libraries used
+
+1. [OpenDota API](https://docs.opendota.com/#section/Introduction) for fetching dota games.
+2. [Google Calendar API for Node.js](https://developers.google.com/calendar/quickstart/nodejs) for inserting calendar events.
+3. [RxJS](https://github.com/ReactiveX/rxjs) for handling streams of data.
+4. [moment.js](https://momentjs.com/) for handling time related data.
+
+## Credits
+
+1. Hero list retrieved from [kronusme](https://github.com/kronusme/dota2-api/blob/master/data/heroes.json).
