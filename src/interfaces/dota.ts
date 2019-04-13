@@ -1,9 +1,19 @@
 export interface MinimalDotaMatch {
+    player_slot: number
+    radiant_win: boolean
     match_id: number
     duration: number
     start_time: number
+    kills: number
+    deaths: number
+    assists: number
+    hero_id: number
 }
 
+/**
+ * 
+ * @see https://docs.opendota.com/#tag/players%2Fpaths%2F~1players~1%7Baccount_id%7D~1recentMatches%2Fget
+ */
 export interface DotaMatch {
     match_id: number
     player_slot: number
