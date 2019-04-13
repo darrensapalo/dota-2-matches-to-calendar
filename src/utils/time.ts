@@ -5,5 +5,9 @@ export function stringToMoment(datetime: string): moment.Moment {
 }
 
 export function momentToISOString(moment: moment.Moment): string {
-    return moment.toISOString();
+    return moment.utc().format();
+}
+
+export function numberToMoment(unix: number): moment.Moment {
+    return moment.unix(unix);
 }
