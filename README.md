@@ -7,35 +7,25 @@
 
 This node project reads your recent DotA 2 games and inserts them as calendar events.
 
-![](header.png)
-
 ## Installation
 
 OS X & Linux:
 
-```sh
-npm install my-crazy-module --save
-```
+_Unwritten_
 
 Windows:
 
-```sh
-edit autoexec.bat
-```
+_Unwritten_
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
+_Unwritten_
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
 ```sh
-make install
-npm test
+npm install
+npm run dev
 ```
 
 ## Release History
