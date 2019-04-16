@@ -1,7 +1,6 @@
 language: node_js
-before_install:
-- openssl aes-256-cbc -K $encrypted_da7f2bf039f1_key -iv $encrypted_da7f2bf039f1_iv
-  -in credentials.json.enc -out credentials.json -d
+before_install: 
+  openssl aes-256-cbc -K $encrypted_da7f2bf039f1_key -iv $encrypted_da7f2bf039f1_iv -in credentials.json.enc -out credentials.json -d
 deploy:
   provider: gae
   keyfile: credentials.json
