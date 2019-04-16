@@ -40,7 +40,7 @@ deploy:
   - provider: script
     script:
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
-      - gcloud --quiet beta functions deploy mailer --source-url https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --source-path / --trigger-http
+      - gcloud --quiet beta functions deploy mailer --source https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --trigger-http
     skip_cleanup: true
     on:
       branch: master
