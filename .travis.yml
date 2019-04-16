@@ -39,9 +39,9 @@ before_deploy:
 deploy:
   - provider: script
     script:
+      - python -c 'import os,sys,fcntl; flags = fcntl.fcntl(sys.stdout, fcntl.F_GETFL); print(flags&os.O_NONBLOCK);'
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
-      - python -c 'import os,sys,fcntl; flags = fcntl.fcntl(sys.stdout, fcntl.F_GETFL); fcntl.fcntl(sys.stdout, fcntl.F_SETFL, flags&~os.O_NONBLOCK);'
-      - gcloud --quiet beta functions deploy mailer --source-url https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --source-path / --trigger-http
+      - gcloud --quiet beta functions deploy mailer --source-url https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --source-path / --trigger-http >/dev/null
     skip_cleanup: true
     on:
       branch: master
