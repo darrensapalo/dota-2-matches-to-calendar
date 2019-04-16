@@ -23,7 +23,7 @@ script:
   - npm test
 
 before_deploy:
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash > /dev/null; fi
   - source /home/travis/google-cloud-sdk/path.bash.inc
   - gcloud --quiet version
   - gcloud --quiet components update
@@ -39,9 +39,8 @@ before_deploy:
 deploy:
   - provider: script
     script:
-      - python -c 'import os,sys,fcntl; flags = fcntl.fcntl(sys.stdout, fcntl.F_GETFL); print(flags&os.O_NONBLOCK);'
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
-      - gcloud --quiet beta functions deploy mailer --source-url https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --source-path / --trigger-http >/dev/null
+      - gcloud --quiet beta functions deploy mailer --source-url https://source.developers.google.com/p/api-project-1025423667957/r/github_darrensapalo_dota-2-matches-to-calendar --source-path / --trigger-http
     skip_cleanup: true
     on:
       branch: master
