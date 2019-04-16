@@ -1,9 +1,7 @@
 # Dota 2 games to Google Calendar
 > I know I have an addiction, I just want to know how bad it is.
 
-[![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
 
 This node project reads your recent DotA 2 games and inserts them as calendar events.
 
@@ -50,11 +48,8 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
+[travis-image]: https://travis-ci.com/darrensapalo/dota-2-matches-to-calendar.svg?branch=master
+[travis-url]: https://travis-ci.com/darrensapalo/dota-2-matches-to-calendar
 [wiki]: https://github.com/yourname/yourproject/wiki
 
 ## Libraries used
