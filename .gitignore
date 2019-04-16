@@ -5,5 +5,7 @@ token.json
 api-project.json
 secrets.tar
 .env
-# *.js
-*.js.map
+src/*.js
+src/*.js.map
+src/*/*.js
+src/*/*.js.map
