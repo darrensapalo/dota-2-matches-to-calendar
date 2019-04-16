@@ -5,7 +5,7 @@ import { Observable, Subscriber, pipe, from, empty, combineLatest, of } from "rx
 import { map, flatMap, filter, shareReplay, tap, toArray } from "rxjs/operators";
 import { DotaMatch } from "./interfaces/dota";
 import { dotaMatchToCalendarEvent } from "./dota";
-import moment = require("moment");
+import * as moment from "moment";
 import { momentToISOString, numberToMoment } from "./utils/time";
 
 // getAuthorizedClient()

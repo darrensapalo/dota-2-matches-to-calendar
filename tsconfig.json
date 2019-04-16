@@ -1,17 +1,18 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "allowSyntheticDefaultImports": true,
         "paths": { "*": ["types/*"] },
         "module": "commonjs",
         "moduleResolution": "node",
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "index.js",
         "sourceMap": true
     },
     "include": [
-        "src/*/**/*.ts"
+        "src/*/**/*.ts",
+        "src/**/*.ts"
     ],
     "exclude": [
         "node_modules",

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const readline = require('readline');
+import * as fs from 'fs';
+import * as readline from 'readline';
 import  { google } from 'googleapis';
 import { empty, Observable } from 'rxjs';
 import { Calendar, OAuth } from '../interfaces/gcal';

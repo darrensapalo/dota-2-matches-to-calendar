@@ -3,3 +3,5 @@ dist/
 credentials.json
 token.json
 .env
+*.js
+*.js.map

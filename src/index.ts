@@ -21,3 +21,10 @@ exports.parseDotaGames = (_request: express.Request, response: express.Response)
         });
 
 };
+
+
+fetchRecentMatches()
+    .pipe(
+        insertNewDotaMatchesAsCalendarEvents()
+    )
+    .subscribe(console.log, console.error);
