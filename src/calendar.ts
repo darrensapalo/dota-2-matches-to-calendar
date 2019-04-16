@@ -83,7 +83,7 @@ function calendarEventExists(proposedEvent: CalendarEvent, existingEvents: Calen
 
         const sameStartTime = moment(existingEvent.start.dateTime).isSame(moment(proposedEvent.start.dateTime));
         const sameEndTime = moment(existingEvent.end.dateTime).isSame(moment(proposedEvent.end.dateTime));
-        
+    
         return sameStartTime && sameEndTime;
     })
     
@@ -97,7 +97,7 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
 
     const query : ListEventQuery = {
         singleEvents: true,
-        maxResults: 150,
+        maxResults: 250,
         timeMin: momentToISOString(moment().subtract(daysSince, 'd')),
         timeMax: momentToISOString(moment()),
         calendarId: process.env.CALENDAR_ID || '6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com'
@@ -115,7 +115,14 @@ function daysSinceTheOldestMatch(dotaMatches: DotaMatch[]): number {
 
     const oldest = moment.min(startTimes);
 
-    return Math.abs(oldest.diff(today, 'd') - 5);
+    return Math.abs(oldest.diff(today, 'd') - 30);
+}
+
+function getLatestCalendarEventsSinceRecentGames(games: DotaMatch[]) {
+    return of(daysSinceTheOldestMatch(games))
+    .pipe(
+        flatMap(getLatestCalendarEvents)
+    )
 }
 
 /**
@@ -130,18 +137,24 @@ export function insertNewDotaMatchesAsCalendarEvents(calendarID?: string) {
         // Process each match one at a time
         flatMap((games: DotaMatch[]) => 
 
-            // Pair together the latest of two streams:
-            combineLatest(
-                // The DotA games that were mapped into calendar events
-                from(games).pipe(map(dotaMatchToCalendarEvent)),
+            // And the latest calendar events based on how many days since the oldest match
+            getLatestCalendarEventsSinceRecentGames(games)
+            .pipe(
+                flatMap(latestCalendarEvents => 
+                    from(games).pipe(
+                        // The DotA games that were mapped into calendar events
+                        map(dotaMatchToCalendarEvent),
 
-                // And the latest calendar events based on how many days since the oldest match
-                of(daysSinceTheOldestMatch(games)).pipe(flatMap(getLatestCalendarEvents))
-            )),
+                        // Pair together the latest of two streams:
+                        map(proposedCalendarEvent => ({ proposedCalendarEvent, latestCalendarEvents }))
+                    )),
+            )
+        ),
         // Only get the ones which do not exist yet
-        filter(data => calendarEventExists(data[0], data[1]) === false),
+        filter(({proposedCalendarEvent, latestCalendarEvents}) => 
+            calendarEventExists(proposedCalendarEvent, latestCalendarEvents) === false),
         // Go back to the proposed calendar event
-        map(data => data[0]),
+        map(({proposedCalendarEvent, latestCalendarEvents}) => proposedCalendarEvent),
         tap(data => console.log("Found an entry to insert! " + data.summary)),
         // Pair together the proposed event and the Oauth client to be used with googleapis.
         flatMap(newCalendarEvent => 

@@ -27,4 +27,9 @@ fetchRecentMatches()
     .pipe(
         insertNewDotaMatchesAsCalendarEvents()
     )
-    .subscribe(console.log, console.error);
+    .subscribe(events => {
+        console.log(`Created a total of ${events.length} event/s.`);
+    }, err => {
+        let errorMesasge = err.message || err;
+        console.log(`An error ocurred: ${errorMesasge}`);
+    });

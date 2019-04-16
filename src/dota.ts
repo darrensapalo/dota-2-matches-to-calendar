@@ -1,5 +1,5 @@
 import { Observable, from } from 'rxjs';
-import { map, concatMap, toArray, take } from 'rxjs/operators';
+import { map, concatMap, toArray, take, tap } from 'rxjs/operators';
 import { DotaMatch, MinimalDotaMatch } from './interfaces/dota';
 import { RxHR } from '@akanass/rx-http-request';
 import { CalendarEvent } from './interfaces/gcal';
