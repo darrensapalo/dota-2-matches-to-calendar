@@ -3,7 +3,7 @@
         "baseUrl": ".",
         "allowSyntheticDefaultImports": true,
         "paths": { "*": ["types/*"] },
-        "module": "es2015",
+        "module": "commonjs",
         "moduleResolution": "node",
         "noImplicitAny": false,
         "removeComments": true,

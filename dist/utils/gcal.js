@@ -1,11 +1,13 @@
-import * as fs from 'fs';
-import * as readline from 'readline';
-import { google } from 'googleapis';
-import { Observable } from 'rxjs';
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var readline = require("readline");
+var googleapis_1 = require("googleapis");
+var rxjs_1 = require("rxjs");
 var SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events'];
 var TOKEN_PATH = 'token.json';
-export function getAuthorizedClient() {
-    return new Observable(function (subscriber) {
+function getAuthorizedClient() {
+    return new rxjs_1.Observable(function (subscriber) {
         fs.readFile('credentials.json', function (err, content) {
             if (err) {
                 subscriber.error(err);
@@ -18,9 +20,10 @@ export function getAuthorizedClient() {
         });
     });
 }
+exports.getAuthorizedClient = getAuthorizedClient;
 function authorize(credentials, callback) {
     var _a = credentials.installed, client_secret = _a.client_secret, client_id = _a.client_id, redirect_uris = _a.redirect_uris;
-    var oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+    var oAuth2Client = new googleapis_1.google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
     fs.readFile(TOKEN_PATH, function (err, token) {
         if (err)
             return getAccessToken(oAuth2Client, callback);

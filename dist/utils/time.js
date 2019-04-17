@@ -1,11 +1,16 @@
-import * as moment from 'moment';
-export function stringToMoment(datetime) {
+"use strict";
+exports.__esModule = true;
+var moment = require("moment");
+function stringToMoment(datetime) {
     return moment(datetime);
 }
-export function momentToISOString(moment) {
+exports.stringToMoment = stringToMoment;
+function momentToISOString(moment) {
     return moment.utc().format();
 }
-export function numberToMoment(unix) {
+exports.momentToISOString = momentToISOString;
+function numberToMoment(unix) {
     return moment.unix(unix);
 }
+exports.numberToMoment = numberToMoment;
 //# sourceMappingURL=time.js.map

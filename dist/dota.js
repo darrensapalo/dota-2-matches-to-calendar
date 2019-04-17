@@ -1,8 +1,10 @@
-import { from } from 'rxjs';
-import { map, concatMap, toArray } from 'rxjs/operators';
-import { RxHR } from '@akanass/rx-http-request';
-import { numberToMoment, momentToISOString } from './utils/time';
-import heroes from './constants/heroes';
+"use strict";
+exports.__esModule = true;
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var rx_http_request_1 = require("@akanass/rx-http-request");
+var time_1 = require("./utils/time");
+var heroes_1 = require("./constants/heroes");
 function mapToDotaMatches(array) {
     return array;
 }
@@ -19,20 +21,21 @@ function getRelevantDetails(match) {
         hero_id: match.hero_id
     };
 }
-export function fetchRecentMatches(user_account_id) {
+function fetchRecentMatches(user_account_id) {
     var account_id = process.env.ACCOUNT_ID || user_account_id || '102817660';
     var URI = "https://api.opendota.com/api/players/" + account_id + "/recentMatches";
-    return RxHR.get(URI)
-        .pipe(map(function (response) { return response.body; }), map(function (body) { return JSON.parse(body); }), map(mapToDotaMatches), concatMap(function (matches) { return from(matches); }), map(getRelevantDetails), toArray());
+    return rx_http_request_1.RxHR.get(URI)
+        .pipe(operators_1.map(function (response) { return response.body; }), operators_1.map(function (body) { return JSON.parse(body); }), operators_1.map(mapToDotaMatches), operators_1.concatMap(function (matches) { return rxjs_1.from(matches); }), operators_1.map(getRelevantDetails), operators_1.toArray());
 }
-export function dotaMatchToCalendarEvent(dotaMatch) {
+exports.fetchRecentMatches = fetchRecentMatches;
+function dotaMatchToCalendarEvent(dotaMatch) {
     var heroID = dotaMatch.hero_id;
     var heroName = getHeroName(heroID);
     var isWin = dotaMatch.radiant_win && getTeam(dotaMatch.player_slot) == 'radiant';
     var winLabel = isWin ? 'W' : 'L';
-    var startTime = numberToMoment(dotaMatch.start_time);
+    var startTime = time_1.numberToMoment(dotaMatch.start_time);
     var duration = dotaMatch.duration;
-    var endTime = numberToMoment(dotaMatch.start_time).add(duration, 's');
+    var endTime = time_1.numberToMoment(dotaMatch.start_time).add(duration, 's');
     var kdaRating = dotaMatch.kills + dotaMatch.deaths;
     if (dotaMatch.assists != 0) {
         kdaRating = kdaRating / dotaMatch.assists;
@@ -43,24 +46,27 @@ export function dotaMatchToCalendarEvent(dotaMatch) {
         location: "Heneral M. Capinpin Street Bangkal, Makati, Metro Manila, Philippines",
         description: "KDA: " + kdaRatingStr + " (" + dotaMatch.kills + "/" + dotaMatch.deaths + "/" + dotaMatch.assists + ")",
         start: {
-            dateTime: momentToISOString(startTime),
+            dateTime: time_1.momentToISOString(startTime),
             timeZone: 'Asia/Manila'
         },
         end: {
-            dateTime: momentToISOString(endTime),
+            dateTime: time_1.momentToISOString(endTime),
             timeZone: 'Asia/Manila'
         }
     };
 }
-export function getTeam(playerSlot) {
+exports.dotaMatchToCalendarEvent = dotaMatchToCalendarEvent;
+function getTeam(playerSlot) {
     if (playerSlot <= 127)
         return 'radiant';
     return 'dire';
 }
-export function getHeroName(heroID) {
-    var hero = heroes.find(function (hero) { return hero.id === heroID; });
+exports.getTeam = getTeam;
+function getHeroName(heroID) {
+    var hero = heroes_1["default"].find(function (hero) { return hero.id === heroID; });
     if (hero)
         return hero.localized_name;
     return String(heroID);
 }
+exports.getHeroName = getHeroName;
 //# sourceMappingURL=dota.js.map
