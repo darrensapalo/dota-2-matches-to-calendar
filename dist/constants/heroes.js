@@ -1,6 +1,4 @@
-"use strict";
-exports.__esModule = true;
-exports["default"] = [
+export default [
     {
         "name": "antimage",
         "id": 1,

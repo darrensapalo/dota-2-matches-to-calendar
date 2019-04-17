@@ -1,10 +1,8 @@
-"use strict";
-exports.__esModule = true;
-var dota_1 = require("./dota");
-var calendar_1 = require("./calendar");
+import { fetchRecentMatches } from './dota';
+import { insertNewDotaMatchesAsCalendarEvents } from './calendar';
 exports.parseDotaGames = function (_request, response) {
-    dota_1.fetchRecentMatches()
-        .pipe(calendar_1.insertNewDotaMatchesAsCalendarEvents())
+    fetchRecentMatches()
+        .pipe(insertNewDotaMatchesAsCalendarEvents())
         .subscribe(function (events) {
         response.status(200).json({
             message: 'success',
