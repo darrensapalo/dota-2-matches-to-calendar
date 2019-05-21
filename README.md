@@ -26,6 +26,10 @@ npm install
 npm run dev
 ```
 
+## To do
+
+1. Fix encryption
+
 ## Release History
 
 * 0.0.1
