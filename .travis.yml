@@ -40,7 +40,8 @@ deploy:
   - provider: script
     script:
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
-      - gcloud beta functions deploy dota-2-games-to-google-calendar --source ./paths/dist --entry-point=parseDotaGames --trigger-http --verbosity=info
+      - mv ./node_modules/ ./dist/
+      - gcloud beta functions deploy dota-2-games-to-google-calendar --source ./dist --entry-point=parseDotaGames --trigger-http --verbosity=info
 
     skip_cleanup: true
     on:
