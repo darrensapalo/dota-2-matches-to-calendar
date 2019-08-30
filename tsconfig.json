@@ -9,7 +9,7 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outDir": "./"
+        "outDir": "./dist"
     },
     "include": [
         "src/*/**/*.ts",
