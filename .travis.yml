@@ -39,8 +39,9 @@ before_deploy:
 deploy:
   - provider: script
     script:
+      - tsc --config tsconfig.prod.json
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
-      - gcloud beta functions deploy dota-2-games-to-google-calendar --source ./dist --entry-point=parseDotaGames --trigger-http --verbosity=info
+      - gcloud beta functions deploy dota-2-games-to-google-calendar --source . --entry-point=parseDotaGames --trigger-http --verbosity=info
 
     skip_cleanup: true
     on:
