@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as readline from 'readline';
 import  { google } from 'googleapis';
 import { empty, Observable } from 'rxjs';
+import { OAuth2Client } from "googleapis-common";
 import { Calendar, OAuth } from '../interfaces/gcal';
 
 // If modifying these scopes, delete token.json.
@@ -11,7 +12,7 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googlea
 // time.
 const TOKEN_PATH = 'token.json';
 
-export function getAuthorizedClient(): Observable<OAuth> {
+export function getAuthorizedClient(): Observable<OAuth2Client> {
     return new Observable(subscriber => {
         
         // Load client secrets from a local file.

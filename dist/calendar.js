@@ -22,13 +22,13 @@ function accessCalendar(func, query) {
 }
 function listEvents(auth, query) {
     var calendar = googleapis_1.google.calendar({ version: 'v3', auth: auth });
-    return new rxjs_1.Observable(accessCalendar(calendar.events.list, query))
+    return new rxjs_1.Observable(accessCalendar(calendar.events.list.bind(calendar.events), query))
         .pipe(operators_1.map(function (response) { return response.data.items; }));
 }
 function getCalendars(auth) {
     var calendar = googleapis_1.google.calendar({ version: 'v3', auth: auth });
     var query = {};
-    return new rxjs_1.Observable(accessCalendar(calendar.calendarList.list, query))
+    return new rxjs_1.Observable(accessCalendar(calendar.calendarList.list.bind(calendar.events), query))
         .pipe(operators_1.map(function (response) { return response.data.items; }));
 }
 exports.getCalendars = getCalendars;
@@ -40,7 +40,7 @@ function insertCalendarEvent(auth, calendarEvent, calendarID) {
         calendarId: calendarID,
         resource: requestBody
     };
-    return new rxjs_1.Observable(accessCalendar(calendar.events.insert, query))
+    return new rxjs_1.Observable(accessCalendar(calendar.events.insert.bind(calendar.events), query))
         .pipe(operators_1.map(function (response) { return response.data; }));
 }
 exports.insertCalendarEvent = insertCalendarEvent;

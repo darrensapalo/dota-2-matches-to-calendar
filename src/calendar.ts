@@ -7,6 +7,7 @@ import { DotaMatch } from "./interfaces/dota";
 import { dotaMatchToCalendarEvent } from "./dota";
 import * as moment from "moment";
 import { momentToISOString, numberToMoment } from "./utils/time";
+import { OAuth2Client } from "googleapis-common";
 
 // getAuthorizedClient()
 //     .pipe(
@@ -35,31 +36,31 @@ function accessCalendar<T>(func: Function, query: any): (subscriber: Subscriber<
 
 /**
  * Lists the last 10 events since three days ago.
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ * @param {OAuth2Client} auth An authorized OAuth2 client.
  */
-function listEvents(auth: OAuth, query: ListEventQuery): Observable<CalendarEvent[]> {
+function listEvents(auth: OAuth2Client, query: ListEventQuery): Observable<CalendarEvent[]> {
  
     const calendar = google.calendar({ version: 'v3', auth });
 
-    return new Observable<any>(accessCalendar(calendar.events.list, query))
+    return new Observable<any>(accessCalendar(calendar.events.list.bind(calendar.events), query))
         .pipe(
             map(response => response.data.items)
         );
 }
 
-export function getCalendars(auth: OAuth): Observable<Calendar[]> {
+export function getCalendars(auth: OAuth2Client): Observable<Calendar[]> {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
     const query = {};
 
-    return new Observable<any>(accessCalendar(calendar.calendarList.list, query))
+    return new Observable<any>(accessCalendar(calendar.calendarList.list.bind(calendar.events), query))
         .pipe(
             map(response => response.data.items)
         );
 }
 
-export function insertCalendarEvent(auth: OAuth, calendarEvent: CalendarEvent, calendarID: string): Observable<CalendarEvent> {
+export function insertCalendarEvent(auth: OAuth2Client, calendarEvent: CalendarEvent, calendarID: string): Observable<CalendarEvent> {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
@@ -71,7 +72,7 @@ export function insertCalendarEvent(auth: OAuth, calendarEvent: CalendarEvent, c
         resource: requestBody
     };
 
-    return new Observable<any>(accessCalendar(calendar.events.insert, query))
+    return new Observable<any>(accessCalendar(calendar.events.insert.bind(calendar.events), query))
         .pipe(
             map(response => response.data)
         );
