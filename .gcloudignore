@@ -13,6 +13,6 @@
 # from your .gitignore file, remove the corresponding line
 # below:
 
-.git
+#.git
 #.gitignore
-node_modules
+#node_modules
