@@ -4,7 +4,7 @@ sudo: false
 # Use node_js environnement
 language: node_js
 node_js:
-  - "6"
+  - "10"
 
 # Cache Gcloud SDK between commands
 cache:
