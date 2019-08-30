@@ -34,8 +34,8 @@ before_deploy:
   - tar xvf secrets.tar
   - gcloud auth activate-service-account --key-file api-project.json
   - gcloud config set project api-project-1025423667957
-  - ls
   - tsc --build tsconfig.prod.json
+  - ls
 
 deploy:
   - provider: script
