@@ -5,6 +5,7 @@
     "build": "tsc",
     "tar-credentials": "tar cvf secrets.tar credentials.json token.json api-project.json",
     "travis-encrypt": "travis encrypt-file secrets.tar --com",
+    "re-encrypt": "npm run tar-credentials; npm run travis-encrypt",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts --experimental-modules",
     "prod": "tsc && node ./dist/index.js"
   },
