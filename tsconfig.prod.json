@@ -1,6 +1,22 @@
 {
-    "extends": "./tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
+        "allowSyntheticDefaultImports": true,
+        "paths": { "*": ["types/*"] },
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
         "outDir": "./"
     },
+    "include": [
+        "src/*/**/*.ts",
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }
