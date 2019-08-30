@@ -3,7 +3,11 @@
 
 [![Build Status][travis-image]][travis-url]
 
-This node project reads your recent DotA 2 games and inserts them as calendar events.
+Automatically fetches your recent DotA 2 games from OpenDota API and inserts them into your Google Calendar as events.
+
+## Example
+
+![Imgur](https://i.imgur.com/wEmKCdF.png)
 
 ## Installation
 
