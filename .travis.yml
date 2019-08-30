@@ -35,11 +35,11 @@ before_deploy:
   - gcloud auth activate-service-account --key-file api-project.json
   - gcloud config set project api-project-1025423667957
   - ls
+  - tsc --build tsconfig.prod.json
 
 deploy:
   - provider: script
     script:
-      # - tsc --build tsconfig.prod.json
       # change PROJECT and REPO to the values from the cloud console: https://console.cloud.google.com/code/develop
       - gcloud beta functions deploy dota-2-games-to-google-calendar --source . --entry-point=parseDotaGames --trigger-http --verbosity=info
 
