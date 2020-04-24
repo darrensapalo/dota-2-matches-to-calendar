@@ -69,4 +69,4 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Credits
 
-1. Hero list retrieved from [kronusme](https://github.com/kronusme/dota2-api/blob/master/data/heroes.json).
+1. Hero list retrieved from [Glebsky/dota2-api](https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json) a fork of [kronusme](https://github.com/kronusme/dota2-api/blob/master/data/heroes.json).

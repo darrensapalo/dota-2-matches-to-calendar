@@ -38,4 +38,4 @@ exports.parseDotaGames = (_request: (express.Request|null), response: (express.R
 
 };
 
-// exports.parseDotaGames(null, null);
+exports.parseDotaGames(null, null);
