@@ -25,6 +25,7 @@
     "typescript": "^3.4.3"
   },
   "devDependencies": {
-    "ts-node-dev": "^1.0.0-pre.32"
+    "ts-node-dev": "^1.0.0-pre.32",
+    "minimist": ">=1.2.3"
   }
 }
