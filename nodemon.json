@@ -1,0 +1,10 @@
+{
+  "ignore": ["credentials/", "dist/", "docs/", "secrets*"],
+  "watch": [
+    "src/"
+  ],
+  "ext": "*.ts",
+  "legacyWatch": true,
+  "verbose": true,
+  "exec": "ts-node src/index.ts"
+}

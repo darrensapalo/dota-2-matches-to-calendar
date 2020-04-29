@@ -1,72 +1,54 @@
 # Dota 2 games to Google Calendar
 > I know I have an addiction, I just want to know how bad it is.
 
-[![Build Status][travis-image]][travis-url]
+[![Build Status](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar.svg?branch=master)](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar)
 
-Automatically fetches your recent DotA 2 games from OpenDota API and inserts them into your Google Calendar as events.
+Automatically fetches my recent DotA 2 games from OpenDota API and inserts them into my Google Calendar as events.
 
 ## Example
 
-![Imgur](https://i.imgur.com/wEmKCdF.png)
+![Imgur](https://imgur.com/VsFxAmb.png)
 
 ## Installation
 
-OS X & Linux:
+1. `git clone https://github.com/darrensapalo/dota-2-matches-to-calendar`
+2. `npm install`
+3. `npm run start`
+4. After running the project for the first time, it will ask you to authenticate
+yourself via Google. 
+    - This is so that it can access your calendar to create 
+calendar events for you.
+5. Visit the link it will provide in terminal and follow the instructions in Google.
+6. Return to the terminal with your key.
+7. It will begin to enter your latest games as calendar events.
 
-_Unwritten_
+## References
 
-Windows:
+### Libraries
 
-_Unwritten_
-
-## Usage example
-
-_Unwritten_
-
-## Development setup
-
-```sh
-npm install
-npm run dev
-```
-
-## To do
-
-1. Fix encryption
-
-## Release History
-
-* 0.0.1
-    * Initial release. Can now load data from open dota api and create calendar events without creating duplicate events.
-
-## Meta
-
-Reach me on the following portals:
-
-**Twitter:** [@darrensapalo](https://twitter.com/darrensapalo) 
-
-Distributed under the MIT license. See ``LICENSE`` for more information.
-
-## Contributing
-
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
-
-<!-- Markdown link & img dfn's -->
-[travis-image]: https://travis-ci.com/darrensapalo/dota-2-matches-to-calendar.svg?branch=master
-[travis-url]: https://travis-ci.com/darrensapalo/dota-2-matches-to-calendar
-[wiki]: https://github.com/yourname/yourproject/wiki
-
-## Libraries used
-
-1. [OpenDota API](https://docs.opendota.com/#section/Introduction) for fetching dota games.
-2. [Google Calendar API for Node.js](https://developers.google.com/calendar/quickstart/nodejs) for inserting calendar events.
+1. [OpenDota API][open-dota-api] for fetching dota games.
+2. [Google Calendar API for Node.js][gcal-node] for inserting calendar events.
 3. [RxJS](https://github.com/ReactiveX/rxjs) for handling streams of data.
 4. [moment.js](https://momentjs.com/) for handling time related data.
 
-## Credits
+### Credits
 
-1. Hero list retrieved from [Glebsky/dota2-api](https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json) a fork of [kronusme](https://github.com/kronusme/dota2-api/blob/master/data/heroes.json).
+1. Hero list retrieved from [Glebsky/dota2-api][glebsky-dota-api] a fork of 
+    [kronusme/dota2-api][kronusme-dota-api].
+
+<!-- References -->
+[glebsky-dota-api]: https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json
+[kronusme-dota-api]: https://github.com/kronusme/dota2-api/blob/master/data/heroes.json
+[open-dota-api]: https://docs.opendota.com/#section/Introduction
+[gcal-node]: https://developers.google.com/calendar/quickstart/nodejs
+
+
+# Meta
+
+Reach me on the following portals:
+
+- [sapalo.dev](https://sapalo.dev)
+- [Twitter](https://twitter.com/darrensapalo) 
+- [GitLab](https://gitlab.com/darrensapalo)
+
+_Distributed under the MIT license. See ``LICENSE`` for more information._
