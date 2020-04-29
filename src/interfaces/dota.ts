@@ -1,3 +1,6 @@
+/**
+ * Minimal information from a DotA 2 match relevant for the use of this project.
+ */
 export interface MinimalDotaMatch {
     player_slot: number
     radiant_win: boolean
@@ -11,7 +14,8 @@ export interface MinimalDotaMatch {
 }
 
 /**
- * 
+ * A comprehensive list of information from a DotA 2 match.
+ *
  * @see https://docs.opendota.com/#tag/players%2Fpaths%2F~1players~1%7Baccount_id%7D~1recentMatches%2Fget
  */
 export interface DotaMatch {
