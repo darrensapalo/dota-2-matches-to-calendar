@@ -41,6 +41,11 @@ exports.parseDotaGames = (request: express.Request, response: express.Response) 
 /**
  * In case I want to run it locally.
  */
-if (process.env.NODE_ENV === 'local') {
+
+const isLocalEnvironment = process.env.NODE_ENV === 'local'
+
+const isLocallyExecuted = process.argv.length === 3 && process.argv[2] === "local";
+
+if (isLocalEnvironment || isLocallyExecuted) {
     exports.parseDotaGames(null, null);
 }
