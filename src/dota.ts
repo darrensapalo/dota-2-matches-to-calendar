@@ -1,17 +1,20 @@
-import { Observable, from } from 'rxjs';
-import { map, concatMap, toArray, take, tap } from 'rxjs/operators';
-import { DotaMatch, MinimalDotaMatch } from './interfaces/dota';
-import { RxHR } from '@akanass/rx-http-request';
-import { CalendarEvent } from './interfaces/gcal';
-import { numberToMoment, momentToISOString } from './utils/time';
+import {from, Observable, pipe} from 'rxjs';
+import {concatMap, map, toArray} from 'rxjs/operators';
+import {DotaMatch, MinimalDotaMatch} from './interfaces/dota';
+import {RxHR} from '@akanass/rx-http-request';
+import {CalendarEvent} from './interfaces/gcal';
+import {momentToISOString, numberToMoment} from './utils/time';
 import heroes from './constants/heroes';
 
-function mapToDotaMatches(array: DotaMatch[]): DotaMatch[] {
-    return array;
-}
-
-function getRelevantDetails(match: DotaMatch): MinimalDotaMatch {
-    return {
+/**
+ * Extracts only the minimal information from a match.
+ *
+ * @see DotaMatch
+ * @see MinimalDotaMatch
+ * @param match
+ */
+function mapToMinimalDotaMatches()  {
+    return map<DotaMatch, MinimalDotaMatch>(match => ({
         match_id: match.match_id,
         start_time: match.start_time,
         duration: match.duration,
@@ -21,32 +24,41 @@ function getRelevantDetails(match: DotaMatch): MinimalDotaMatch {
         player_slot: match.player_slot,
         radiant_win: match.radiant_win,
         hero_id: match.hero_id
-    }
+    }));
 }
 
-export function fetchRecentMatches(user_account_id?: number): Observable<MinimalDotaMatch[]> {
+/**
+ * @returns an Observable stream that emits a single array of dota matches with
+ *          minimal information.
+ * @param userAccountId
+ */
+export function fetchRecentMatches(userAccountId?: number): Observable<MinimalDotaMatch[]> {
 
-    const account_id = process.env.ACCOUNT_ID || user_account_id || '102817660';
+    const account_id = userAccountId || process.env.ACCOUNT_ID || '102817660';
 
-    const URI = `https://api.opendota.com/api/players/${account_id}/recentMatches`;
+    const openDotaGetRecentMatchesUrl = `https://api.opendota.com/api/players/${account_id}/recentMatches`;
 
-    return RxHR.get(URI)
+    const mapToDotaMatches = pipe(
+      map<any, any>(response => response.body),
+      map<any, DotaMatch[]>(body => JSON.parse(body)),
+      concatMap(matches => from(matches))
+    )
+
+    const requestRecentDotaMatches$ = RxHR.get<any>(openDotaGetRecentMatchesUrl);
+
+    return requestRecentDotaMatches$
         .pipe(
-            map(response => response.body),
-            map(body => JSON.parse(body)),
-            map(mapToDotaMatches),
-            concatMap(matches => from(matches)),
-            map(getRelevantDetails),
+            mapToDotaMatches,
+            mapToMinimalDotaMatches(),
             toArray()
         )
-        
 }
 
- 
+
 export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
     const heroID = dotaMatch.hero_id;
     const heroName = getHeroName(heroID);
-    
+
     const isWin = dotaMatch.radiant_win && getTeam(dotaMatch.player_slot) == 'radiant';
     const winLabel = isWin ? 'W' : 'L';
 
@@ -60,7 +72,7 @@ export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
     }
 
     const kdaRatingStr = `${kdaRating.toFixed(2)}`
- 
+
     return {
         summary: `DotA 2 (${winLabel}) - ${heroName}`,
         location: `Heneral M. Capinpin Street Bangkal, Makati, Metro Manila, Philippines`,
@@ -83,9 +95,9 @@ export function getTeam(playerSlot: number): ('radiant' | 'dire') {
 
 export function getHeroName(heroID: number): string {
     const hero = heroes.find(hero => hero.id === heroID);
-    
+
     if (hero)
         return hero.localized_name;
-        
+
     return String(heroID);
 }
