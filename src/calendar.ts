@@ -138,9 +138,9 @@ function getLatestCalendarEventsSinceRecentGames(games: DotaMatch[]) {
  * Input: a list of recent dota matches.
  * Output: Each calendar event that was inserted into the google calendar.
  */
-export function insertNewDotaMatchesAsCalendarEvents(calendarID?: string) {
+export function insertNewDotaMatchesAsCalendarEvents() {
 
-    calendarID = calendarID || '6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com';
+    const calendarID = process.env.GOOGLE_CALENDAR_ID;
 
     return pipe(
         // Process each match one at a time
