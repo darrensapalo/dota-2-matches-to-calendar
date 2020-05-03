@@ -1,6 +1,6 @@
 {
   "name": "dota-2-games-to-google-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "ts-node src/index.ts local",
     "build": "tsc",

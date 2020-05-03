@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2020-05-04
+### Fixed
+- Parsed `.env` file correctly, to provide dota account and google calendar id.
+
 ## [1.0.0] - 2020-04-30
 ### Fixed
 - Encryption for cleaned up credentials under google cloud function.
@@ -16,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added a CHANGELOG.md entry.
-- Added a CONTRIBUGING.md entry.
+- Added a CONTRIBUGING.md entry.  
 - Created a `.env` file for simple configuration of the dota user and the 
     google calendar to use.
 - Set up `nodemon` for easier development.
