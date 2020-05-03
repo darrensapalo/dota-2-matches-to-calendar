@@ -34,7 +34,7 @@ function mapToMinimalDotaMatches()  {
  */
 export function fetchRecentMatches(): Observable<MinimalDotaMatch[]> {
 
-    const account_id = process.env.ACCOUNT_ID;
+    const account_id = process.env.DOTA_ACCOUNT_ID;
 
     const openDotaGetRecentMatchesUrl = `https://api.opendota.com/api/players/${account_id}/recentMatches`;
 

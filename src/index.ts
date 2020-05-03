@@ -2,6 +2,8 @@ import express from 'express';
 import {fetchRecentMatches} from './dota';
 import {insertNewDotaMatchesAsCalendarEvents} from './calendar';
 
+const config = require('dotenv').config();
+
 /**
  * Responds to any HTTP request.
  *
