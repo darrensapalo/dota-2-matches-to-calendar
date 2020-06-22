@@ -164,7 +164,7 @@ export function insertNewDotaMatchesAsCalendarEvents() {
             calendarEventExists(proposedCalendarEvent, latestCalendarEvents) === false),
         // Go back to the proposed calendar event
         map(({proposedCalendarEvent, latestCalendarEvents}) => proposedCalendarEvent),
-        tap(data => console.log("Found an entry to insert! " + data.summary)),
+        tap(data => console.log("Found an entry to insert:", JSON.stringify(data, null, 2))),
         // Pair together the proposed event and the Oauth client to be used with googleapis.
         mergeMap(newCalendarEvent =>
             combineLatest(

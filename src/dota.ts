@@ -30,13 +30,11 @@ function mapToMinimalDotaMatches()  {
 /**
  * @returns an Observable stream that emits a single array of dota matches with
  *          minimal information.
- * @param userAccountId
+ * @param dotaAccountId
  */
-export function fetchRecentMatches(): Observable<MinimalDotaMatch[]> {
+export function fetchRecentMatches(dotaAccountId: string): Observable<MinimalDotaMatch[]> {
 
-    const account_id = process.env.DOTA_ACCOUNT_ID;
-
-    const openDotaGetRecentMatchesUrl = `https://api.opendota.com/api/players/${account_id}/recentMatches`;
+    const openDotaGetRecentMatchesUrl = `https://api.opendota.com/api/players/${dotaAccountId}/recentMatches`;
 
     const mapToDotaMatches = pipe(
       map<any, any>(response => response.body),
@@ -59,8 +57,15 @@ export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
     const heroID = dotaMatch.hero_id;
     const heroName = getHeroName(heroID);
 
-    const isWin = dotaMatch.radiant_win && getTeam(dotaMatch.player_slot) == 'radiant';
-    const winLabel = isWin ? 'W' : 'L';
+    const playerIsRadiant = getTeam(dotaMatch.player_slot) == 'radiant';
+    const playerIsDire = getTeam(dotaMatch.player_slot) == 'dire';
+
+    const didPlayerWin = (
+      dotaMatch.radiant_win && playerIsRadiant ||
+      dotaMatch.radiant_win === false && playerIsDire
+    );
+
+    const winLabel = didPlayerWin ? 'W' : 'L';
 
     const startTime = numberToMoment(dotaMatch.start_time);
     const duration = dotaMatch.duration;

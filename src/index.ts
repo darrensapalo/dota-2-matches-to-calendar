@@ -25,7 +25,14 @@ const sendResponse = (response: express.Response, statusCode: number) => {
  */
 exports.parseDotaGames = (request: express.Request, response: express.Response) => {
 
-  fetchRecentMatches()
+  let dotaAccountId: string;
+  if (isInDevelopmentMode) {
+    dotaAccountId = "102817660";
+  } else {
+    dotaAccountId = request.query.dotaAccountId;
+  }
+
+  fetchRecentMatches(dotaAccountId)
     .pipe(
       insertNewDotaMatchesAsCalendarEvents(),
       map(events => ({
