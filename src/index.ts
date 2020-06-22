@@ -1,41 +1,45 @@
 import express from 'express';
-import { fetchRecentMatches } from './dota';
-import { insertNewDotaMatchesAsCalendarEvents } from './calendar';
+import {fetchRecentMatches} from './dota';
+import {insertNewDotaMatchesAsCalendarEvents} from './calendar';
+import {map} from "rxjs/operators";
+
+const isInDevelopmentMode = process.env.NODE_ENV === 'development';
+
+const sendResponse = (response: express.Response, statusCode: number) => {
+  return (data) => {
+    if (isInDevelopmentMode) {
+      console.log("Finished processing.");
+      console.log(data);
+    } else {
+      response.status(statusCode).json(data);
+    }
+
+  }
+};
+
 /**
  * Responds to any HTTP request.
  *
- * @param {!express:Request} req HTTP request context.
- * @param {!express:Response} res HTTP response context.
+ * @param request
+ * @param response
  */
-exports.parseDotaGames = (_request: (express.Request|null), response: (express.Response|null)) => {
-    
-    fetchRecentMatches()
-        .pipe(
-            insertNewDotaMatchesAsCalendarEvents()
-        )
-        .subscribe(events => {
+exports.parseDotaGames = (request: express.Request, response: express.Response) => {
 
-            if (response === null) {
-                console.log(`Successfully generated ${events.length} events.`);
-                console.log(JSON.stringify(events, null, 2));
-                return;
-            }
-
-            response.status(200).json({
-                message: 'success',
-                total: events.length,
-                events: events
-            });
-        }, err => {
-            let errorMessage = err.message || err;
-            if (response === null) {
-                console.error(`An error occurred:`);
-                console.error(err);
-                return;
-            }
-            response.status(500).send(`An error ocurred: ${errorMessage}`);
-        });
+  fetchRecentMatches()
+    .pipe(
+      insertNewDotaMatchesAsCalendarEvents(),
+      map(events => ({
+        message: 'success',
+        total: events.length,
+        events: events
+      }))
+    )
+    .subscribe(
+      sendResponse(response, 200),
+      sendResponse(response, 500)
+    );
 
 };
 
-// exports.parseDotaGames(null, null);
+if (process.env.NODE_ENV === 'development')
+  exports.parseDotaGames(null, null);
