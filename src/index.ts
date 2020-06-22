@@ -29,7 +29,7 @@ exports.parseDotaGames = (request: express.Request, response: express.Response) 
   if (isInDevelopmentMode) {
     dotaAccountId = "102817660";
   } else {
-    dotaAccountId = request.query.dotaAccountId;
+    dotaAccountId = request.query.dotaAccountId || "102817660";
   }
 
   fetchRecentMatches(dotaAccountId)
