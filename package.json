@@ -1,19 +1,19 @@
 {
   "name": "dota-2-games-to-google-calendar",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "scripts": {
+    "start": "ts-node src/index.ts local",
     "build": "tsc",
     "tar-credentials": "tar cvf secrets.tar credentials.json token.json api-project.json",
-    "travis-encrypt": "travis encrypt-file secrets.tar --com",
-    "re-encrypt": "npm run tar-credentials; npm run travis-encrypt",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts --experimental-modules",
-    "local": "tsc && node ./dist/index.js"
+    "travis-encrypt": "travis encrypt-file secrets.tar --org",
+    "dev": "nodemon"
   },
   "dependencies": {
     "@akanass/rx-http-request": "^3.1.0",
     "@types/express": "^4.16.1",
     "@types/gapi": "0.0.36",
     "@types/request": "^2.48.1",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "googleapis": "^42.0.0",
     "marked": "^0.7.0",
@@ -25,6 +25,6 @@
     "typescript": "^3.4.3"
   },
   "devDependencies": {
-    "ts-node-dev": "^1.0.0-pre.32"
+    "nodemon": "^2.0.3"
   }
 }
