@@ -1,9 +1,9 @@
-# Dota 2 games to Google Calendar
+# Save your Dota 2 games to your Google Calendar
 > I know I have an addiction, I just want to know how bad it is.
 
 [![Build Status](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar.svg?branch=master)](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar)
 
-Automatically fetches my recent DotA 2 games from OpenDota API and inserts them into my Google Calendar as events.
+Automatically fetches your DotA 2 games from the OpenDota API and creates new Google Calendar events.
 
 ## Example
 
@@ -11,16 +11,32 @@ Automatically fetches my recent DotA 2 games from OpenDota API and inserts them 
 
 ## Installation
 
-1. `git clone https://github.com/darrensapalo/dota-2-matches-to-calendar`
-2. `npm install`
-3. `npm run start`
-4. After running the project for the first time, it will ask you to authenticate
-yourself via Google. 
-    - This is so that it can access your calendar to create 
+1. Clone the application.
+
+```bash
+git clone https://github.com/darrensapalo/dota-2-matches-to-calendar
+```
+
+2. Install the dependencies.
+
+```bash
+npm install
+```
+
+3. Start the application.
+
+```bash
+npm run start
+```
+
+4. After running the project for the first time, it will ask you to authenticate yourself via Google. 
+
+
+This is so that it can access your calendar to create 
 calendar events for you.
-5. Visit the link it will provide in terminal and follow the instructions in Google.
-6. Return to the terminal with your key.
-7. It will begin to enter your latest games as calendar events.
+1. Visit the link it will provide in terminal and follow the instructions in Google.
+2. Return to the terminal with your key.
+3. It will begin to enter your latest games as calendar events.
 
 ## References
 

@@ -6,7 +6,7 @@ import {map} from "rxjs/operators";
 const isInDevelopmentMode = process.env.NODE_ENV === 'development';
 
 const sendResponse = (response: express.Response, statusCode: number) => {
-  return (data) => {
+  return (data: any) => {
     if (isInDevelopmentMode) {
       console.log("Finished processing.");
       console.log(data);

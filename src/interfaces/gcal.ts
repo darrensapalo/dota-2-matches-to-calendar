@@ -1,5 +1,3 @@
-import * as moment from "moment";
-
 export interface OAuth {
 
 }
@@ -62,8 +60,8 @@ export interface CalendarEvent {
 
 export interface ListEventQuery {
     calendarId?: string
-    timeMin?: (string|moment.Moment|Date)
-    timeMax?: (string | moment.Moment | Date)
+    timeMin?: (string|Date)
+    timeMax?: (string|Date)
     maxResults?: number
     singleEvents?: boolean
     orderBy?: ('startTime'|'endTime')

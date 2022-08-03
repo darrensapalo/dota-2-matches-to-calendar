@@ -1,7 +1,7 @@
-import {getAuthorizedClient} from "./utils/gcal";
-import {Calendar, CalendarEvent, ListEventQuery} from "./interfaces/gcal";
-import {google} from 'googleapis';
-import {combineLatest, from, Observable, of, pipe, Subscriber} from "rxjs";
+import dayjs from "dayjs";
+import { google } from 'googleapis';
+import { OAuth2Client } from "googleapis-common";
+import { combineLatest, from, Observable, of, pipe, Subscriber } from "rxjs";
 import {
     filter,
     flatMap,
@@ -11,24 +11,18 @@ import {
     tap,
     toArray
 } from "rxjs/operators";
-import {DotaMatch} from "./interfaces/dota";
-import {dotaMatchToCalendarEvent} from "./dota";
-import * as moment from "moment";
-import {momentToISOString, numberToMoment} from "./utils/time";
-import {OAuth2Client} from "googleapis-common";
-
-// getAuthorizedClient()
-//     .pipe(
-//         concatMap(insertCalendarEvent),
-//     )
-//     .subscribe(console.log, console.error);
+import { dotaMatchToCalendarEvent } from "./dota";
+import { DotaMatch, MinimalDotaMatch } from "./interfaces/dota";
+import { Calendar, CalendarEvent, ListEventQuery } from "./interfaces/gcal";
+import { getAuthorizedClient } from "./utils/gcal";
+import { DateUtil } from "./utils/time";
 
 let authorizedClient = getAuthorizedClient().pipe(shareReplay(1));
 
 function accessCalendar<T>(func: Function, query: any): (subscriber: Subscriber<T>) => void {
     return subscriber => {
 
-        func(query, (err, res) => {
+        func(query, (err: any, res: any) => {
             if (err) {
                 subscriber.error(err);
                 return;
@@ -90,8 +84,8 @@ function calendarEventExists(proposedEvent: CalendarEvent, existingEvents: Calen
 
     const foundEvent = existingEvents.find((existingEvent: CalendarEvent) => {
 
-        const sameStartTime = moment(existingEvent.start.dateTime).isSame(moment(proposedEvent.start.dateTime));
-        const sameEndTime = moment(existingEvent.end.dateTime).isSame(moment(proposedEvent.end.dateTime));
+        const sameStartTime = dayjs(existingEvent?.start?.dateTime).isSame(dayjs(proposedEvent?.start?.dateTime));
+        const sameEndTime = dayjs(existingEvent?.end?.dateTime).isSame(dayjs(proposedEvent?.end?.dateTime));
 
         return sameStartTime && sameEndTime;
     })
@@ -107,8 +101,8 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
     const query : ListEventQuery = {
         singleEvents: true,
         maxResults: 250,
-        timeMin: momentToISOString(moment().subtract(daysSince, 'd')),
-        timeMax: momentToISOString(moment()),
+        timeMin: DateUtil.parseDate(dayjs().subtract(daysSince, 'd').toISOString()).toISOString(),
+        timeMax: dayjs().toISOString(),
         calendarId: process.env.CALENDAR_ID || '6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com'
     }
 
@@ -117,17 +111,22 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
     );
 }
 
-function daysSinceTheOldestMatch(dotaMatches: DotaMatch[]): number {
-    const today = moment();
+function daysSinceTheOldestMatch(dotaMatches: MinimalDotaMatch[]): number {
+    const today = dayjs();
 
-    const startTimes = dotaMatches.map(m => m.start_time).map(numberToMoment);
+    const startTimes = dotaMatches.map(m => m.start_time).map(DateUtil.parseUnixTime);
 
-    const oldest = moment.min(startTimes);
+    const oldest = startTimes.reduce((acc, curr) => {
+        if (curr.isBefore(acc)) {
+            return curr;
+        }
+        return acc;
+    }, dayjs());
 
     return Math.abs(oldest.diff(today, 'd') - 30);
 }
 
-function getLatestCalendarEventsSinceRecentGames(games: DotaMatch[]) {
+function getLatestCalendarEventsSinceRecentGames(games: MinimalDotaMatch[]) {
     return of(daysSinceTheOldestMatch(games))
     .pipe(
         flatMap(getLatestCalendarEvents)
@@ -140,11 +139,11 @@ function getLatestCalendarEventsSinceRecentGames(games: DotaMatch[]) {
  */
 export function insertNewDotaMatchesAsCalendarEvents() {
 
-    const calendarID = process.env.GOOGLE_CALENDAR_ID;
+    const calendarID = process.env.GOOGLE_CALENDAR_ID || "";
 
     return pipe(
         // Process each match one at a time
-        mergeMap((games: DotaMatch[]) =>
+        mergeMap((games: MinimalDotaMatch[]) =>
 
             // And the latest calendar events based on how many days since the oldest match
             getLatestCalendarEventsSinceRecentGames(games)
