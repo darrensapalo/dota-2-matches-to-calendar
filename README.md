@@ -47,6 +47,16 @@ npm run start
 
 8. It will begin to enter your latest games as calendar events.
 
+## Usage
+
+Access the web application via HTTP GET, and specifying the query parameters for the user's DotA 2 account ID and Google Calendar ID.
+
+```bash
+curl <baseURL of deployment>?dotaAccountID=<dota_account_id>&calendarID=<calendar_id>
+```
+
+The result will be a JSON object enumerating the newly entered calendar events.
+
 # Roadmap
 
 * Design a user experience wherein the user can register to have their dota games uploaded as Google Calendar events.
