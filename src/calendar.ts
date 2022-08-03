@@ -8,6 +8,7 @@ import {
     map,
     mergeMap,
     shareReplay,
+    take,
     tap,
     toArray
 } from "rxjs/operators";
@@ -103,7 +104,7 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
         maxResults: 250,
         timeMin: DateUtil.parseDate(dayjs().subtract(daysSince, 'd').toISOString()).toISOString(),
         timeMax: dayjs().toISOString(),
-        calendarId: process.env.CALENDAR_ID || '6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com'
+        calendarId: process.env.CALENDAR_ID,
     }
 
     return getAuthorizedClient().pipe(
@@ -139,7 +140,7 @@ function getLatestCalendarEventsSinceRecentGames(games: MinimalDotaMatch[]) {
  */
 export function insertNewDotaMatchesAsCalendarEvents() {
 
-    const calendarID = process.env.GOOGLE_CALENDAR_ID || "";
+    const calendarID = process.env.CALENDAR_ID || "";
 
     return pipe(
         // Process each match one at a time

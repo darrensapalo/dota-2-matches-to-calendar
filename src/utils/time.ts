@@ -17,7 +17,7 @@ export class DateUtil {
      * @returns a dayjs instance.
      */
     static parseUnixTime(unixTimeMs: number): dayjs.Dayjs {
-        return dayjs(unixTimeMs);
+        return dayjs.unix(unixTimeMs);
     }
 
 }

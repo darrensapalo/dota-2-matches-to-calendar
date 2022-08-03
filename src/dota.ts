@@ -52,6 +52,9 @@ export function fetchRecentMatches(dotaAccountId: string): Observable<MinimalDot
         )
 }
 
+function getOpenDotaURL(dotaMatch: MinimalDotaMatch): string {
+    return `https://www.opendota.com/matches/${dotaMatch.match_id}`;
+}
 
 export function dotaMatchToCalendarEvent(dotaMatch: MinimalDotaMatch): CalendarEvent {
     const heroID = dotaMatch.hero_id;
@@ -78,17 +81,16 @@ export function dotaMatchToCalendarEvent(dotaMatch: MinimalDotaMatch): CalendarE
 
     const kdaRatingStr = `${kdaRating.toFixed(2)}`
 
+    const url = getOpenDotaURL(dotaMatch);
+
     return {
         summary: `DotA 2 (${winLabel}) - ${heroName}`,
-        location: `Heneral M. Capinpin Street Bangkal, Makati, Metro Manila, Philippines`,
-        description: `KDA: ${kdaRatingStr} (${dotaMatch.kills}/${dotaMatch.deaths}/${dotaMatch.assists})`,
+        description: `KDA: ${kdaRatingStr} (${dotaMatch.kills}/${dotaMatch.deaths}/${dotaMatch.assists})\n\nGame analysis: ${url}`,
         start: {
             dateTime: startTime.toISOString(),
-            timeZone: 'Asia/Manila'
         },
         end: {
             dateTime: endTime.toISOString(),
-            timeZone: 'Asia/Manila'
         }
     }
 }
