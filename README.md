@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar.svg?branch=master)](https://travis-ci.org/darrensapalo/dota-2-matches-to-calendar)
 
-Automatically fetches your DotA 2 games from the OpenDota API and creates new Google Calendar events.
+REST API-triggered web application that copies your DotA 2 games (from OpenDota API) into Google Calendar events.
 
 ## Example
 
@@ -58,13 +58,14 @@ calendar events for you.
 [open-dota-api]: https://docs.opendota.com/#section/Introduction
 [gcal-node]: https://developers.google.com/calendar/quickstart/nodejs
 
+## Copyright
 
-# Meta
+MIT [License](./LICENSE.txt).
 
-Reach me on the following portals:
+## Author
+
+Reach me on the following platforms:
 
 - [sapalo.dev](https://sapalo.dev)
 - [Twitter](https://twitter.com/darrensapalo) 
 - [GitLab](https://gitlab.com/darrensapalo)
-
-_Distributed under the MIT license. See ``LICENSE`` for more information._
