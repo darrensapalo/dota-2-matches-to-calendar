@@ -104,7 +104,7 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
         maxResults: 250,
         timeMin: DateUtil.parseDate(dayjs().subtract(daysSince, 'd').toISOString()).toISOString(),
         timeMax: dayjs().toISOString(),
-        calendarId: process.env.CALENDAR_ID,
+        calendarId: process.env.DEFAULT_CALENDAR_ID,
     }
 
     return getAuthorizedClient().pipe(
@@ -138,9 +138,7 @@ function getLatestCalendarEventsSinceRecentGames(games: MinimalDotaMatch[]) {
  * Input: a list of recent dota matches.
  * Output: Each calendar event that was inserted into the google calendar.
  */
-export function insertNewDotaMatchesAsCalendarEvents() {
-
-    const calendarID = process.env.CALENDAR_ID || "";
+export function insertNewDotaMatchesAsCalendarEvents(calendarID: string) {
 
     return pipe(
         // Process each match one at a time

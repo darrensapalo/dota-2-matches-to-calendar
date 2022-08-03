@@ -10,7 +10,7 @@ services:
       - ./credentials.json:/usr/credentials.json
       - ./token.json:/usr/token.json
     environment:
-      - CALENDAR_ID=6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com
+      - DEFAULT_CALENDAR_ID=6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com
       - DEFAULT_DOTA_ACCOUNT_ID=102817660
       # Determines where the user will be redirected after they have given 
       # permissions.
