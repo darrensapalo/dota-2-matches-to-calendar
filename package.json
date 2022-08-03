@@ -1,11 +1,14 @@
 {
   "name": "dota-2-games-to-google-calendar",
-  "version": "1.0.1",
+  "version": "1.1.0",
+  "author": {
+    "name": "Darren Sapalo",
+    "email": "darren.sapalo@gmail.com",
+    "url": "https://sapalo.dev"
+  },
   "scripts": {
-    "start": "ts-node src/index.ts local",
+    "start": "ts-node src/index.ts",
     "build": "tsc",
-    "tar-credentials": "tar cvf secrets.tar credentials.json token.json api-project.json",
-    "travis-encrypt": "travis encrypt-file secrets.tar --org",
     "dev": "nodemon"
   },
   "dependencies": {

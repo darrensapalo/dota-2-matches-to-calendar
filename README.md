@@ -29,14 +29,15 @@ npm install
 npm run start
 ```
 
-4. After running the project for the first time, it will ask you to authenticate yourself via Google. 
+4. After running the project for the first time, it will give you a URL to access, which you need to visit.
 
+![Snapshot](docs/snapshot.png)
 
-This is so that it can access your calendar to create 
-calendar events for you.
-1. Visit the link it will provide in terminal and follow the instructions in Google.
-2. Return to the terminal with your key.
-3. It will begin to enter your latest games as calendar events.
+5. This page requests permissions on your Google account to create calendar events in your behalf.
+
+6. Return to the terminal with your key.
+
+8. It will begin to enter your latest games as calendar events.
 
 ## References
 
@@ -45,12 +46,11 @@ calendar events for you.
 1. [OpenDota API][open-dota-api] for fetching dota games.
 2. [Google Calendar API for Node.js][gcal-node] for inserting calendar events.
 3. [RxJS](https://github.com/ReactiveX/rxjs) for handling streams of data.
-4. [moment.js](https://momentjs.com/) for handling time related data.
+4. [Day.js](https://day.js.org/) for handling time related data.
 
 ### Credits
 
-1. Hero list retrieved from [Glebsky/dota2-api][glebsky-dota-api] a fork of 
-    [kronusme/dota2-api][kronusme-dota-api].
+Hero list retrieved from [Glebsky/dota2-api][glebsky-dota-api] a fork of [kronusme/dota2-api][kronusme-dota-api].
 
 <!-- References -->
 [glebsky-dota-api]: https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json
@@ -66,6 +66,8 @@ MIT [License](./LICENSE.txt).
 
 Reach me on the following platforms:
 
-- [sapalo.dev](https://sapalo.dev)
-- [Twitter](https://twitter.com/darrensapalo) 
-- [GitLab](https://gitlab.com/darrensapalo)
+- Personal blog at [sapalo.dev](https://sapalo.dev).
+
+- Thoughts on my [Twitter](https://twitter.com/darrensapalo).
+
+- Some other pieces of code at [GitLab](https://gitlab.com/darrensapalo).
