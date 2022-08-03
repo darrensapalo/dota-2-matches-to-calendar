@@ -596,5 +596,15 @@ export default [
     "name": "snapfire",
     "id": 128,
     "localized_name": "Snapfire"
-  }
+  },
+  {
+    "name": "mars",
+    "id": 129,
+    "localized_name": "Mars"
+  },
+  {
+    "name": "dawnbreaker",
+    "id": 135,
+    "localized_name": "Dawnbreaker"
+  },
 ]

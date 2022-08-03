@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  app:
+    container_name: app
+    restart: always
+    image: darrensapalo/dota-2-matches-to-calendar:latest
+    build: .
+    env_file: .env
+    volumes:
+      - ./credentials.json:/usr/credentials.json
+      - ./token.json:/usr/token.json
+    environment:
+      - DEFAULT_CALENDAR_ID=6c7uqlv2f3kvbvqjjge18d35c8@group.calendar.google.com
+      - DEFAULT_DOTA_ACCOUNT_ID=102817660
+      # Determines where the user will be redirected after they have given 
+      # permissions.
+      - REDIRECT_URL=https://n8n.sapalo.dev/webhook/dota2-matches-to-gcal
+    ports:
+      - 3030:80

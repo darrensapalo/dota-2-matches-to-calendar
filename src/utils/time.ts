@@ -1,13 +1,23 @@
-import * as moment from 'moment';
+import dayjs, { unix } from "dayjs";
 
-export function stringToMoment(datetime: string): moment.Moment {
-    return moment(datetime);
-}
+export class DateUtil {
 
-export function momentToISOString(moment: moment.Moment): string {
-    return moment.utc().format();
-}
+    /**
+     * Parses the date in ISO 8601 format.
+     * @param datetime the date in ISO 8601 format.
+     * @returns a dayjs instance.
+     */
+    static parseDate(datetime: string): dayjs.Dayjs {
+        return dayjs(datetime);
+    }
 
-export function numberToMoment(unix: number): moment.Moment {
-    return moment.unix(unix);
+    /**
+     * Parses the date in unix time format (milliseconds).
+     * @param unixTimeMs the datetime in unix time (ms) format
+     * @returns a dayjs instance.
+     */
+    static parseUnixTime(unixTimeMs: number): dayjs.Dayjs {
+        return dayjs.unix(unixTimeMs);
+    }
+
 }

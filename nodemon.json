@@ -1,5 +1,5 @@
 {
-  "ignore": ["credentials/", "dist/", "docs/", "secrets*"],
+  "ignore": ["credentials/", "tokens/", "dist/", "docs/", "secrets*", "node_modules/"],
   "watch": [
     "src/"
   ],

@@ -3,8 +3,8 @@ import {concatMap, map, toArray} from 'rxjs/operators';
 import {DotaMatch, MinimalDotaMatch} from './interfaces/dota';
 import {RxHR} from '@akanass/rx-http-request';
 import {CalendarEvent} from './interfaces/gcal';
-import {momentToISOString, numberToMoment} from './utils/time';
 import heroes from './constants/heroes';
+import { DateUtil } from './utils/time';
 
 /**
  * Extracts only the minimal information from a match.
@@ -52,8 +52,11 @@ export function fetchRecentMatches(dotaAccountId: string): Observable<MinimalDot
         )
 }
 
+function getOpenDotaURL(dotaMatch: MinimalDotaMatch): string {
+    return `https://www.opendota.com/matches/${dotaMatch.match_id}`;
+}
 
-export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
+export function dotaMatchToCalendarEvent(dotaMatch: MinimalDotaMatch): CalendarEvent {
     const heroID = dotaMatch.hero_id;
     const heroName = getHeroName(heroID);
 
@@ -67,9 +70,9 @@ export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
 
     const winLabel = didPlayerWin ? 'W' : 'L';
 
-    const startTime = numberToMoment(dotaMatch.start_time);
+    const startTime = DateUtil.parseUnixTime(dotaMatch.start_time);
     const duration = dotaMatch.duration;
-    const endTime = numberToMoment(dotaMatch.start_time).add(duration, 's');
+    const endTime = DateUtil.parseUnixTime(dotaMatch.start_time).add(duration, 's');
 
     let kdaRating = dotaMatch.kills + dotaMatch.deaths;
     if (dotaMatch.assists != 0) {
@@ -78,17 +81,16 @@ export function dotaMatchToCalendarEvent(dotaMatch: DotaMatch): CalendarEvent {
 
     const kdaRatingStr = `${kdaRating.toFixed(2)}`
 
+    const url = getOpenDotaURL(dotaMatch);
+
     return {
         summary: `DotA 2 (${winLabel}) - ${heroName}`,
-        location: `Heneral M. Capinpin Street Bangkal, Makati, Metro Manila, Philippines`,
-        description: `KDA: ${kdaRatingStr} (${dotaMatch.kills}/${dotaMatch.deaths}/${dotaMatch.assists})`,
+        description: `KDA: ${kdaRatingStr} (${dotaMatch.kills}/${dotaMatch.deaths}/${dotaMatch.assists})\n\nGame analysis: ${url}`,
         start: {
-            dateTime: momentToISOString(startTime),
-            timeZone: 'Asia/Manila'
+            dateTime: startTime.toISOString(),
         },
         end: {
-            dateTime: momentToISOString(endTime),
-            timeZone: 'Asia/Manila'
+            dateTime: endTime.toISOString(),
         }
     }
 }
