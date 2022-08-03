@@ -7,7 +7,6 @@ import { loadFile, parseAsJSON, saveFile } from "./file";
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
   "https://www.googleapis.com/auth/calendar.events",
 ];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -33,7 +32,7 @@ export function getAuthorizedClient(): Observable<OAuth2Client> {
  * @param {Object} credentials The authorization client credentials.
  */
 function getOAuthClient(credentials: any): Observable<OAuth2Client> {
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
+  const { client_secret, client_id, redirect_uris } = credentials.web;
   
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
@@ -62,6 +61,7 @@ function getAccessToken(oAuth2Client: OAuth2Client): Observable<AccessToken> {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
+    redirect_uri: process.env.REDIRECT_URL,
   });
 
   console.log("Authorize this app by visiting this url:", authUrl);
@@ -92,7 +92,7 @@ function getAccessToken(oAuth2Client: OAuth2Client): Observable<AccessToken> {
 
   }).pipe(
     // After retrieving a new token, save it to the local path and return.
-    mergeMap(token => saveFile(TOKEN_PATH, token).pipe(mapTo(token)))
+    mergeMap(token => saveFile(TOKEN_PATH, JSON.stringify(token, null, 2)).pipe(mapTo(token)))
   );
 
   
