@@ -1,14 +1,14 @@
 require('dotenv').config()
 import express from "express";
-import { fetchRecentMatches } from "./dota";
-import { insertNewDotaMatchesAsCalendarEvents } from "./calendar";
 import { map } from "rxjs/operators";
+import { insertNewDotaMatchesAsCalendarEvents } from "./calendar";
+import { fetchRecentMatches } from "./dota";
 
 const isInDevelopmentMode = process.env.NODE_ENV === "development";
 
 // Initialize sentry.
 import * as Sentry from "@sentry/node";
-import { BrowserTracing } from "@sentry/tracing";
+import { GoogleCalendarAuth } from "./utils/gcal";
 
 Sentry.init({
   dsn: "https://57ba9a986bea4855b00d3fe749618e9a@o1344894.ingest.sentry.io/6620971",
@@ -69,7 +69,7 @@ exports.parseDotaGames = (
 
   fetchRecentMatches(dotaAccountID)
     .pipe(
-      insertNewDotaMatchesAsCalendarEvents(calendarID),
+      insertNewDotaMatchesAsCalendarEvents(new GoogleCalendarAuth(dotaAccountID, calendarID)),
       map((events) => ({
         message: "success",
         total: events.length,

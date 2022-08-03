@@ -11,3 +11,5 @@ src/*/*.js
 src/*/*.js.map
 .idea
 credentials/
+credentials/
+tokens/

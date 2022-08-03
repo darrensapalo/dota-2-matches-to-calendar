@@ -15,10 +15,8 @@ import {
 import { dotaMatchToCalendarEvent } from "./dota";
 import { DotaMatch, MinimalDotaMatch } from "./interfaces/dota";
 import { Calendar, CalendarEvent, ListEventQuery } from "./interfaces/gcal";
-import { getAuthorizedClient } from "./utils/gcal";
+import { GoogleCalendarAuth } from "./utils/gcal";
 import { DateUtil } from "./utils/time";
-
-let authorizedClient = getAuthorizedClient().pipe(shareReplay(1));
 
 function accessCalendar<T>(func: Function, query: any): (subscriber: Subscriber<T>) => void {
     return subscriber => {
@@ -97,7 +95,7 @@ function calendarEventExists(proposedEvent: CalendarEvent, existingEvents: Calen
 }
 
 
-function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]> {
+function getLatestCalendarEvents(gcalAuth: GoogleCalendarAuth, daysSince: number): Observable<CalendarEvent[]> {
 
     const query : ListEventQuery = {
         singleEvents: true,
@@ -107,7 +105,7 @@ function getLatestCalendarEvents(daysSince: number): Observable<CalendarEvent[]>
         calendarId: process.env.DEFAULT_CALENDAR_ID,
     }
 
-    return getAuthorizedClient().pipe(
+    return gcalAuth.getAuthorizedClient().pipe(
         flatMap(oauth => listEvents(oauth, query))
     );
 }
@@ -127,10 +125,13 @@ function daysSinceTheOldestMatch(dotaMatches: MinimalDotaMatch[]): number {
     return Math.abs(oldest.diff(today, 'd') - 30);
 }
 
-function getLatestCalendarEventsSinceRecentGames(games: MinimalDotaMatch[]) {
+function getLatestCalendarEventsSinceRecentGames(
+    gcalAuth: GoogleCalendarAuth,
+    games: MinimalDotaMatch[],
+) {
     return of(daysSinceTheOldestMatch(games))
     .pipe(
-        flatMap(getLatestCalendarEvents)
+        mergeMap((daysSince) => getLatestCalendarEvents(gcalAuth, daysSince))
     )
 }
 
@@ -138,14 +139,14 @@ function getLatestCalendarEventsSinceRecentGames(games: MinimalDotaMatch[]) {
  * Input: a list of recent dota matches.
  * Output: Each calendar event that was inserted into the google calendar.
  */
-export function insertNewDotaMatchesAsCalendarEvents(calendarID: string) {
+export function insertNewDotaMatchesAsCalendarEvents(gcalAuth: GoogleCalendarAuth) {
 
     return pipe(
         // Process each match one at a time
         mergeMap((games: MinimalDotaMatch[]) =>
 
             // And the latest calendar events based on how many days since the oldest match
-            getLatestCalendarEventsSinceRecentGames(games)
+            getLatestCalendarEventsSinceRecentGames(gcalAuth, games)
             .pipe(
                 mergeMap(latestCalendarEvents =>
                     from(games).pipe(
@@ -166,11 +167,11 @@ export function insertNewDotaMatchesAsCalendarEvents(calendarID: string) {
         // Pair together the proposed event and the Oauth client to be used with googleapis.
         mergeMap(newCalendarEvent =>
             combineLatest(
-                authorizedClient,
+                gcalAuth.getAuthorizedClient(),
                 of(newCalendarEvent))
                 ),
         // Insert the proposed calendar event
-        mergeMap(data => insertCalendarEvent(data[0], data[1], calendarID)),
+        mergeMap(data => insertCalendarEvent(data[0], data[1], gcalAuth.getCalendarID())),
         toArray()
     )
 }

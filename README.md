@@ -5,11 +5,19 @@
 
 REST API-triggered web application that copies your DotA 2 games (from OpenDota API) into Google Calendar events.
 
-## Example
+#### 🚀 Automatically creates Google Calendar events of your DotA 2 games
 
-![Imgur](https://imgur.com/VsFxAmb.png)
+![Example result](./docs/example-result.png)
+*Figure 1: Google Calendar events are automatically created from your DotA 2 games.*
 
-## Installation
+#### 📑 Includes game summary on the event description
+
+![Event details](./docs/event-details.png)
+*Figure 2: Google Calendar event provides KDA and a link to the opendota game analysis.*
+
+
+
+# Installation
 
 1. Clone the application.
 
@@ -39,30 +47,30 @@ npm run start
 
 8. It will begin to enter your latest games as calendar events.
 
-## References
+# Roadmap
 
-### Libraries
+* Design a user experience wherein the user can register to have their dota games uploaded as Google Calendar events.
+* Parameterize how many games to record (e.g. Create at most the 5 latest DotA games that don't exist yet).
+
+## Usage
+*⚠️ Ideal usage; not the actual current usage*
+
+Ideal
+
+# References
+
+## Libraries
 
 1. [OpenDota API][open-dota-api] for fetching dota games.
 2. [Google Calendar API for Node.js][gcal-node] for inserting calendar events.
 3. [RxJS](https://github.com/ReactiveX/rxjs) for handling streams of data.
 4. [Day.js](https://day.js.org/) for handling time related data.
 
-### Credits
-
-Hero list retrieved from [Glebsky/dota2-api][glebsky-dota-api] a fork of [kronusme/dota2-api][kronusme-dota-api].
-
-<!-- References -->
-[glebsky-dota-api]: https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json
-[kronusme-dota-api]: https://github.com/kronusme/dota2-api/blob/master/data/heroes.json
-[open-dota-api]: https://docs.opendota.com/#section/Introduction
-[gcal-node]: https://developers.google.com/calendar/quickstart/nodejs
-
-## Copyright
+# Copyright
 
 MIT [License](./LICENSE.txt).
 
-## Author
+# Author
 
 Reach me on the following platforms:
 
@@ -71,3 +79,14 @@ Reach me on the following platforms:
 - Thoughts on my [Twitter](https://twitter.com/darrensapalo).
 
 - Some other pieces of code at [GitLab](https://gitlab.com/darrensapalo).
+
+
+## Credits
+
+Hero list retrieved from [Glebsky/dota2-api][glebsky-dota-api] a fork of [kronusme/dota2-api][kronusme-dota-api].
+
+<!-- References -->
+[glebsky-dota-api]: https://github.com/Glebsky/dota2-api/blob/feature/data/heroes.json
+[kronusme-dota-api]: https://github.com/kronusme/dota2-api/blob/master/data/heroes.json
+[open-dota-api]: https://docs.opendota.com/#section/Introduction
+[gcal-node]: https://developers.google.com/calendar/quickstart/nodejs
